@@ -2,9 +2,19 @@ const request = require("request-promise-native");
 const cheerio = require("cheerio");
 const fs = require("fs");
 
-let seenAds = JSON.parse(fs.readFileSync("./db.json").toString());
-const persistAds = (data) => fs.writeFileSync("./db.json", data);
-let newAds = {};
+const getDatabase = (path = "./db.json") => {
+  const doesExist = fs.existsSync(path);
+  if (doesExist) {
+    return require(path);
+  } else {
+    fs.writeFileSync(path, JSON.stringify({}));
+    return {};
+  }
+};
+
+const dbPath = "./db.json";
+let seenAds = getDatabase(dbPath);
+const persistAds = (data) => fs.writeFileSync(dbPath, data);
 
 async function immowelt() {
   const url =
@@ -51,8 +61,28 @@ async function immoscout24() {
   return Array.from(ads);
 }
 
+async function immonet() {
+  const url =
+    "https://www.immonet.de/immobiliensuche/sel.do?zip=97074&fromarea=40.0&latitude=49.75979306254099&torooms=2.0&parentcat=1&suchart=2&marketingtype=2&toprice=700.0&fromrooms=1.0&radius=5&listsize=26&objecttype=1&longitude=9.991224749299306&pageoffset=1&sortby=2";
+  const html = await request.get(url);
+  let $ = cheerio.load(html);
+
+  const listingSelector =
+    "div#result-list-stage > div.place-over-understitial > div > div.item";
+
+  let ads = $(listingSelector).map((idx, e) => {
+    const id = $(e).attr("id").split("_")[1];
+    return {
+      id,
+      timestamp: new Date().toLocaleString(),
+      link: `https://www.immonet.de/angebot/${id}`,
+    };
+  });
+  return Array.from(ads);
+}
+
 async function run() {
-  const ads_per_site = [await immoscout24(), await immowelt()];
+  const ads_per_site = [await immoscout24(), await immowelt(), await immonet()];
   const all_ads = ads_per_site
     .reduce((prev, current) => prev.concat(current), [])
     .map((ad) => {
@@ -71,8 +101,9 @@ async function run() {
 
   persistAds(JSON.stringify(seenAds, null, 2));
   if (notifications.length > 0) {
-    console.log(`Found ${notifications.length} new ads`);
-    console.log(notifications);
+    console.log(
+      `Found ${notifications.length} new ads:\n${notifications.join("\n\n")}`
+    );
   }
 }
 

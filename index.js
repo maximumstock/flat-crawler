@@ -81,8 +81,32 @@ async function immonet() {
   return Array.from(ads);
 }
 
+async function immobilio() {
+  const url =
+    "https://www.immobilo.de/suchergebnisse?s=lowest_price_first&l=W%C3%BCrzburg&as%5B%5D=de.wuerzburg-frauenland&as%5B%5D=de.wuerzburg-mainviertel&as%5B%5D=de.wuerzburg-moenchberg&as%5B%5D=de.wuerzburg-rennweg&as%5B%5D=de.wuerzburg-rottenbauer&as%5B%5D=de.wuerzburg-sanderau&usageType=private&t=apartment%3Arental&a=de.wuerzburg&pf=&pt=700&rf=1&rt=2&sf=40&st=&yf=&yt=&ff=&ft=&pa=&o=&ad=&u=";
+  const html = await request.get(url);
+  let $ = cheerio.load(html);
+
+  const listingSelector = "div.item-list > div.item-wrap";
+
+  let ads = $(listingSelector).map((idx, e) => {
+    const id = $(e).attr("id").split("-")[1];
+    return {
+      id,
+      timestamp: new Date().toLocaleString(),
+      link: `https://www.immobilo.de/immobilien/${id}`,
+    };
+  });
+  return Array.from(ads);
+}
+
 async function run() {
-  const ads_per_site = [await immoscout24(), await immowelt(), await immonet()];
+  const ads_per_site = [
+    await immoscout24(),
+    await immowelt(),
+    await immonet(),
+    await immobilio(),
+  ];
   const all_ads = ads_per_site
     .reduce((prev, current) => prev.concat(current), [])
     .map((ad) => {

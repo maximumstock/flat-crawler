@@ -18,7 +18,7 @@ const persistAds = (data) => fs.writeFileSync(dbPath, data);
 
 async function immowelt() {
   const url =
-    "https://www.immowelt.de/liste/wuerzburg-frauenland/wohnungen/mieten?lat=49.7896&lon=9.95042&sr=2&roomi=1&rooma=2&prima=800&wflmi=40&eqid=-3&sort=createdate%2Bdesc";
+    "https://www.immowelt.de/liste/wuerzburg-frauenland/wohnungen/mieten?lat=49.7896&lon=9.95042&sr=2&roomi=1&rooma=2.5&prima=800&wflmi=40&eqid=-3&sort=createdate%2Bdesc";
 
   const html = await request.get(url);
   let $ = cheerio.load(html);
@@ -35,15 +35,8 @@ async function immowelt() {
 }
 
 async function immoscout24() {
-  /**
-   * - Würzburg, Frauenland
-   * - max. 900€ kalt
-   * - sortiert nach Einstellungsdatum (`S-2`)
-   * - min. 37qm
-   * - ab 1,5 Zimmer
-   */
   const url =
-    "https://www.immobilienscout24.de/Suche/de/bayern/wuerzburg/frauenland/wohnung-mieten?numberofrooms=1.5-&price=-900.0&livingspace=37.0-&sorting=2&enteredFrom=result_list";
+    "https://www.immobilienscout24.de/Suche/de/bayern/wuerzburg/frauenland/wohnung-mieten?numberofrooms=1.5-2.5&price=-700.0&livingspace=37.0-&sorting=2&enteredFrom=result_list";
   const html = await request.get(url);
   let $ = cheerio.load(html);
 
@@ -63,7 +56,7 @@ async function immoscout24() {
 
 async function immonet() {
   const url =
-    "https://www.immonet.de/immobiliensuche/sel.do?zip=97074&fromarea=40.0&latitude=49.75979306254099&torooms=2.0&parentcat=1&suchart=2&marketingtype=2&toprice=700.0&fromrooms=1.0&radius=5&listsize=26&objecttype=1&longitude=9.991224749299306&pageoffset=1&sortby=2";
+    "https://www.immonet.de/immobiliensuche/sel.do?zip=97074&fromarea=40.0&latitude=49.75979306254099&torooms=2.5&parentcat=1&suchart=2&marketingtype=2&toprice=700.0&fromrooms=1.0&radius=5&listsize=26&objecttype=1&longitude=9.991224749299306&pageoffset=1&sortby=2";
   const html = await request.get(url);
   let $ = cheerio.load(html);
 
@@ -83,7 +76,7 @@ async function immonet() {
 
 async function immobilio() {
   const url =
-    "https://www.immobilo.de/suchergebnisse?s=lowest_price_first&l=W%C3%BCrzburg&as%5B%5D=de.wuerzburg-frauenland&as%5B%5D=de.wuerzburg-mainviertel&as%5B%5D=de.wuerzburg-moenchberg&as%5B%5D=de.wuerzburg-rennweg&as%5B%5D=de.wuerzburg-rottenbauer&as%5B%5D=de.wuerzburg-sanderau&usageType=private&t=apartment%3Arental&a=de.wuerzburg&pf=&pt=700&rf=1&rt=2&sf=40&st=&yf=&yt=&ff=&ft=&pa=&o=&ad=&u=";
+    "https://www.immobilo.de/suchergebnisse?s=lowest_price_first&l=W%C3%BCrzburg&as%5B%5D=de.wuerzburg-frauenland&as%5B%5D=de.wuerzburg-mainviertel&as%5B%5D=de.wuerzburg-moenchberg&as%5B%5D=de.wuerzburg-rennweg&as%5B%5D=de.wuerzburg-rottenbauer&as%5B%5D=de.wuerzburg-sanderau&usageType=private&t=apartment%3Arental&a=de.wuerzburg&pf=&pt=700&rf=1&rt=2.5&sf=40&st=&yf=&yt=&ff=&ft=&pa=&o=&ad=&u=";
   const html = await request.get(url);
   let $ = cheerio.load(html);
 
@@ -133,7 +126,7 @@ async function run() {
     await immowelt(),
     await immonet(),
     await immobilio(),
-    await ebaykleinanzeigen(),
+    // await ebaykleinanzeigen(),
   ];
   const all_ads = ads_per_site
     .reduce((prev, current) => prev.concat(current), [])

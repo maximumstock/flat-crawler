@@ -100,6 +100,8 @@ async function ebaykleinanzeigen() {
     headers: {
       "user-agent":
         "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.61 Safari/537.36",
+      cookie:
+        "ekcmpSeen=true; ekConsentData=BOyKxp_OyKxp_B9ChBDECh-AAAAp57v______9______9uz_Ov_v_f__33e8__9v_l_7_-___u_-3zd4u_1vf99yfm1-7etr3tp_87ues2_Xur__79__3z3_9phP78k89r7337Ew-v83oA; ekConsentBucket=full; ekCustomConsentData=42%2C43; overlayV21=seen; JSESSIONID=39C9BBBE5BF1F54ECF755A3E20BBC22B-mc4.koeb47-25_i01_1001; GCLB=CLnOt7DTw_bo9QE; rbzid=564e3u6TCYDyrCaPbnCyIxWp7an6iLVTPTGI1y+TGvXPET3anCq5ZEt1rHPg1dfaroS+GlLfceZa6ioIKqITmPgrn0rKfJYSpTbAkjLL/IrdKgPqCMwDcH714EE0HwQ1CUp4Ntk9cRSnn60y974EEOEnDKI4nkb/ybl0txKOB1ljsrFyVoHdOEDzD+PeMBEMc2RdIZ+9XH4QRLn/fTIPOW5OVo8MJSG6Q73xNgWVLkC+pKWbOrOO/5EZ24Mu5RYyGIkFcfoIPc3aWlg8wxSTS5AwfRQ354NPJ6yjW2sBTGgXo7okoIE+P7CSOxYDZshx6BunoNG/G7+6MXzUz252jw==; rbzsessionid=859202a0becbb6f12ebd996d625ab349; sc=%7B%22va%22%3A%221424097672%2C-38417%2C-806103%2C-148216%2C-445103%2C-270606%22%7D; uh=%7B%22sh%22%3A%22l%3D7667%26att%3Dwohnung_mieten.qm_d%4040%2C%3Awohnung_mieten.zimmer_d%401%2C2%26c%3D203%26wohnung_mieten.qm_d%3D40%2C%26wohnung_mieten.zimmer_d%3D1%2C2%26at%3DOFFER%26map%3D700%3A%3Al%3D7667%26c%3D203%22%7D; up=%7B%22ln%22%3A%2237324093%22%2C%22ls%22%3A%22l%3D7667%26att%3Dwohnung_mieten.qm_d%4040%2C%3Awohnung_mieten.zimmer_d%401%2C2%26c%3D203%26wohnung_mieten.qm_d%3D40%2C%26wohnung_mieten.zimmer_d%3D1%2C2%26at%3DOFFER%26map%3D700%22%2C%22va%22%3A%221424059255%2C-806103%2C-148216%2C-445103%2C-270606%2C1708445%22%7D",
     },
   });
   console.log(html);

@@ -1,6 +1,7 @@
 const request = require("request-promise-native");
 const cheerio = require("cheerio");
 const fs = require("fs");
+const axios = require('axios');
 
 const getDatabase = (path = "./db.json") => {
   const doesExist = fs.existsSync(path);
@@ -23,7 +24,7 @@ async function immowelt() {
   const html = await request.get(url);
   let $ = cheerio.load(html);
 
-  let ads = $("div#listItemWrapperFixed > div.listitem_wrap").map((idx, e) => {
+  let ads = $("div#listItemWrapperFixed > div.listitem_wrap").map((_i, e) => {
     const id = $(e).attr("data-oid");
     return {
       id,
@@ -43,7 +44,7 @@ async function immoscout24() {
   const listingSelector = "ul#resultListItems > li.result-list__listing";
 
   // 1 page of results
-  let ads = $(listingSelector).map((idx, e) => {
+  let ads = $(listingSelector).map((_i, e) => {
     const id = $(e).attr("data-id");
     return {
       id,
@@ -63,7 +64,7 @@ async function immonet() {
   const listingSelector =
     "div#result-list-stage > div.place-over-understitial > div > div.item";
 
-  let ads = $(listingSelector).map((idx, e) => {
+  let ads = $(listingSelector).map((_i, e) => {
     const id = $(e).attr("id").split("_")[1];
     return {
       id,
@@ -82,7 +83,7 @@ async function immobilio() {
 
   const listingSelector = "div.item-list > div.item-wrap";
 
-  let ads = $(listingSelector).map((idx, e) => {
+  let ads = $(listingSelector).map((_i, e) => {
     const id = $(e).attr("id").split("-")[1];
     return {
       id,
@@ -108,12 +109,32 @@ async function ebaykleinanzeigen() {
 
   const listingSelector = "ul.ad-list > li.ad-listitem > article.aditem";
 
-  let ads = $(listingSelector).map((idx, e) => {
+  let ads = $(listingSelector).map((_i, e) => {
     const id = $(e).attr("data-adid");
     return {
       id,
       timestamp: new Date().toLocaleString(),
       link: `https://www.ebay-kleinanzeigen.de/s-anzeige/${id}`,
+    };
+  });
+  return Array.from(ads);
+}
+
+async function wggesucht() {
+  const url = "http://www.wg-gesucht.de/wg-zimmer-und-1-zimmer-wohnungen-in-Wurzburg.141.0+1.1.0.html?offer_filter=1&city_id=141&sort_column=0&noDeact=1&categories%5B%5D=0&categories%5B%5D=1&rent_types%5B%5D=2&sMin=30";
+  const res = await axios.get(url);
+
+  let $ = cheerio.load(res.data);
+
+  const listingSelector = "#main_column > div.offer_list_item";
+
+  let ads = $(listingSelector).map((_i, e) => {
+    const id = $(e).attr("data-id");
+    const link = $(e).find("div.row > div.card_image > a").first().attr("href");
+    return {
+      id,
+      timestamp: new Date().toLocaleString(),
+      link: `https://www.wg-gesucht.de/${link}`,
     };
   });
   return Array.from(ads);
@@ -125,7 +146,8 @@ async function run() {
     await immowelt(),
     await immonet(),
     await immobilio(),
-    // await ebaykleinanzeigen(),
+    await ebaykleinanzeigen(),
+    await wggesucht()
   ];
   const all_ads = ads_per_site
     .reduce((prev, current) => prev.concat(current), [])
@@ -134,7 +156,7 @@ async function run() {
       x[ad.id] = ad;
       return x;
     })
-    .reduce((prev, current) => Object.assign(prev, current));
+    .reduce((prev, current) => Object.assign(prev, current), {});
 
   const notifications = Object.values(all_ads)
     .filter((ad) => !seenAds[ad.link])

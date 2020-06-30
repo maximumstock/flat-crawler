@@ -3,7 +3,13 @@ const cheerio = require("cheerio");
 const fs = require("fs");
 const axios = require('axios');
 
-const getDatabase = (path = "./db.json") => {
+const dbPath = process.env.DBPATH;
+
+if (!dbPath) {
+  throw new Error("no db path env set");
+}
+
+const getDatabase = (path = dbPath) => {
   const doesExist = fs.existsSync(path);
   if (doesExist) {
     return require(path);
@@ -13,7 +19,6 @@ const getDatabase = (path = "./db.json") => {
   }
 };
 
-const dbPath = "./db.json";
 let seenAds = getDatabase(dbPath);
 const persistAds = (data) => fs.writeFileSync(dbPath, data);
 

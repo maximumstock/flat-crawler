@@ -1,3 +1,5 @@
+#!/bin/bash
+
 MSG=$(node index.js)
 
 if [ ${#MSG} -ge 5 ]; then

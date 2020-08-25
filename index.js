@@ -178,7 +178,6 @@ const configs = {
     immobilio: "https://www.immobilo.de/suchergebnisse?s=lowest_price_first&l=W%C3%BCrzburg&as%5B%5D=de.wuerzburg-frauenland&as%5B%5D=de.wuerzburg-mainviertel&as%5B%5D=de.wuerzburg-moenchberg&as%5B%5D=de.wuerzburg-rennweg&as%5B%5D=de.wuerzburg-rottenbauer&as%5B%5D=de.wuerzburg-sanderau&usageType=private&t=apartment%3Arental&a=de.wuerzburg&pf=&pt=700&rf=1&rt=2.5&sf=40&st=&yf=&yt=&ff=&ft=&pa=&o=&ad=&u=",
     immonet: "https://www.immonet.de/immobiliensuche/sel.do?zip=97074&fromarea=40.0&latitude=49.75979306254099&torooms=2.5&parentcat=1&suchart=2&marketingtype=2&toprice=700.0&fromrooms=1.0&radius=5&listsize=26&objecttype=1&longitude=9.991224749299306&pageoffset=1&sortby=2",
     immowelt: "https://www.immowelt.de/liste/wuerzburg-frauenland/wohnungen/mieten?lat=49.7896&lon=9.95042&sr=2&roomi=1&rooma=2.5&prima=800&wflmi=40&eqid=-3&sort=createdate%2Bdesc",
-    // ebaykleinanzeigen: "https://www.ebay-kleinanzeigen.de/s-wohnung-mieten/wuerzburg/anzeige:angebote/preis::700/c203l7667+wohnung_mieten.qm_d:40,+wohnung_mieten.zimmer_d:1,2",
   },
   2: {
     immoscout24: "https://www.immobilienscout24.de/Suche/de/bayern/wuerzburg/wohnung-mieten?numberofrooms=1.0-&price=-370.0&geocodes=1276002094021,1276002094001,1276002094025,1276002094022,1276002094020,1276002094023,1276002094016,1276002094029&enteredFrom=result_list",
